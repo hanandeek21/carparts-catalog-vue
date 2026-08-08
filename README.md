@@ -1,38 +1,34 @@
-# .
+# Catalog & Discovery Component
 
-This template should help get you started developing with Vue 3 in Vite.
+Part of the **Car Parts & Accessories** e-commerce microfrontend project (Group 14).
 
-## Recommended IDE Setup
+## Overview
+This component handles product browsing and discovery for the store — the home page, product listing, search/filters, and product detail pages.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Owner
+- **Name:** Hanan
+- **Role:** Catalog & discovery
+- **Framework:** Vue
+- **UI Library:** Vuetify (Material Design)
 
-## Recommended Browser Setup
+## Features
+- Home page
+- Product listing
+- Search & filters
+- Product detail page
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Status
+🚧 In progress — project setup phase.
 
-## Customize configuration
+## Exposed Routes / Events
+_To be documented as development progresses._
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Live URL
+_Not deployed yet._
 
-## Project Setup
+## Tech Stack
+- [Vue 3](https://vuejs.org/)
+- [Vuetify](https://vuetifyjs.com/)
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+## Integration Note
+This component is being built as part of a microfrontend architecture. Integration method (Web Components / other) to be confirmed with the team.
