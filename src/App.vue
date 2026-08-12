@@ -1,31 +1,31 @@
 <template>
-  <v-app class="bg-grey-lighten-5">
+  <v-app class="app-background">
     <!-- Navbar -->
-    <v-app-bar app color="indigo-darken-4" elevation="3" class="px-md-4">
+    <v-app-bar app class="custom-navbar px-md-4" elevation="1">
       <v-container class="d-flex align-center py-0">
         <v-app-bar-title class="text-h6 font-weight-black d-flex align-center">
-          <v-icon icon="mdi-engine" color="amber-accent-3" class="mr-2" size="large" />
-          <span class="tracking-wide">AUTO<span class="text-amber-accent-3">PARTS</span></span>
+          <v-icon icon="mdi-engine" color="amber-darken-2" class="mr-2" size="large" />
+          <span class="tracking-wide text-dark">AUTO<span class="text-accent">PARTS</span></span>
         </v-app-bar-title>
 
         <v-spacer></v-spacer>
 
-        <v-btn icon class="mr-1" @click="isOrdersOpen = true">
-          <v-badge color="indigo-lighten-2" :content="orders.length" text-color="white" v-if="orders.length > 0">
+        <v-btn icon class="mr-1 text-dark" @click="isOrdersOpen = true">
+          <v-badge color="grey-darken-4" :content="orders.length" text-color="white" v-if="orders.length > 0">
             <v-icon icon="mdi-history"></v-icon>
           </v-badge>
           <v-icon icon="mdi-history" v-else></v-icon>
         </v-btn>
 
-        <v-btn icon class="mr-1" @click="isWishlistOpen = true">
-          <v-badge color="amber-accent-3" :content="wishlistCount" text-color="black">
+        <v-btn icon class="mr-1 text-dark" @click="isWishlistOpen = true">
+          <v-badge color="amber-darken-2" :content="wishlistCount" text-color="black">
             <v-icon icon="mdi-heart-outline"></v-icon>
           </v-badge>
         </v-btn>
 
-        <v-btn icon color="amber-accent-3" variant="flat" class="ml-2" @click="isCartOpen = true">
+        <v-btn icon class="btn-dark-custom ml-2" variant="flat" @click="isCartOpen = true">
           <v-badge color="error" :content="cartCount">
-            <v-icon icon="mdi-cart-outline" color="indigo-darken-4"></v-icon>
+            <v-icon icon="mdi-cart-outline" color="white"></v-icon>
           </v-badge>
         </v-btn>
       </v-container>
@@ -33,17 +33,17 @@
 
     <v-main>
       <!-- Hero Section -->
-      <section class="hero-section bg-indigo-darken-4 text-white py-12 px-4">
+      <section class="hero-section text-white py-12 px-4">
         <v-container>
           <v-row align="center">
             <v-col cols="12" md="7">
-              <v-chip color="amber-accent-3" class="mb-3 font-weight-bold" size="small">
+              <v-chip class="mb-3 font-weight-bold custom-chip" size="small">
                 PREMIUM AUTO SUPPLIES
               </v-chip>
-              <h1 class="text-h3 font-weight-black mb-4">
+              <h1 class="text-h3 font-weight-black mb-4 text-dark-title">
                 Upgrade Your Ride With OEM & Quality Parts
               </h1>
-              <p class="text-body-1 text-grey-lighten-2 mb-6">
+              <p class="text-body-1 text-grey-darken-2 mb-6">
                 Explore our wide range of original car spare parts and premium interior/exterior accessories.
               </p>
             </v-col>
@@ -53,33 +53,33 @@
 
       <!-- Guarantees -->
       <v-container class="mt-n6">
-        <v-card elevation="4" rounded="lg" class="pa-4 bg-white">
+        <v-card elevation="2" rounded="xl" class="pa-4 bg-white border-card">
           <v-row no-gutters justify="space-between" align="center">
             <v-col cols="6" md="3" class="d-flex align-center pa-2">
-              <v-icon icon="mdi-truck-fast-outline" color="indigo-darken-3" size="36" class="mr-3" />
+              <v-icon icon="mdi-truck-fast-outline" color="grey-darken-4" size="36" class="mr-3" />
               <div>
-                <div class="font-weight-bold text-subtitle-2">Fast Express Delivery</div>
+                <div class="font-weight-bold text-subtitle-2 text-dark">Fast Express Delivery</div>
                 <div class="text-caption text-grey">On all orders</div>
               </div>
             </v-col>
             <v-col cols="6" md="3" class="d-flex align-center pa-2">
-              <v-icon icon="mdi-shield-check-outline" color="indigo-darken-3" size="36" class="mr-3" />
+              <v-icon icon="mdi-shield-check-outline" color="grey-darken-4" size="36" class="mr-3" />
               <div>
-                <div class="font-weight-bold text-subtitle-2">100% Genuine Parts</div>
+                <div class="font-weight-bold text-subtitle-2 text-dark">100% Genuine Parts</div>
                 <div class="text-caption text-grey">Guaranteed quality</div>
               </div>
             </v-col>
             <v-col cols="6" md="3" class="d-flex align-center pa-2">
-              <v-icon icon="mdi-headset" color="indigo-darken-3" size="36" class="mr-3" />
+              <v-icon icon="mdi-headset" color="grey-darken-4" size="36" class="mr-3" />
               <div>
-                <div class="font-weight-bold text-subtitle-2">24/7 Support</div>
+                <div class="font-weight-bold text-subtitle-2 text-dark">24/7 Support</div>
                 <div class="text-caption text-grey">Expert assistance</div>
               </div>
             </v-col>
             <v-col cols="6" md="3" class="d-flex align-center pa-2">
-              <v-icon icon="mdi-cached" color="indigo-darken-3" size="36" class="mr-3" />
+              <v-icon icon="mdi-cached" color="grey-darken-4" size="36" class="mr-3" />
               <div>
-                <div class="font-weight-bold text-subtitle-2">Easy Returns</div>
+                <div class="font-weight-bold text-subtitle-2 text-dark">Easy Returns</div>
                 <div class="text-caption text-grey">30 days money-back</div>
               </div>
             </v-col>
@@ -89,18 +89,18 @@
 
       <!-- Search & Filters -->
       <v-container class="mt-8">
-        <v-card class="pa-4 mb-6" elevation="1" rounded="lg">
+        <v-card class="pa-4 mb-6 border-card" elevation="1" rounded="xl">
           <v-row align="center">
             <v-col cols="12" md="5">
               <v-text-field
                 v-model="searchQuery"
                 label="Search by part or accessory name..."
                 prepend-inner-icon="mdi-magnify"
-                variant="solo-filled"
-                flat
+                variant="outlined"
                 density="comfortable"
                 clearable
                 hide-details
+                bg-color="white"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="3">
@@ -109,10 +109,10 @@
                 :items="categories"
                 label="Select Category"
                 prepend-inner-icon="mdi-filter-variant"
-                variant="solo-filled"
-                flat
+                variant="outlined"
                 density="comfortable"
                 hide-details
+                bg-color="white"
               ></v-select>
             </v-col>
             <v-col cols="12" sm="6" md="4">
@@ -121,10 +121,10 @@
                 :items="sortOptions"
                 label="Sort By"
                 prepend-inner-icon="mdi-sort"
-                variant="solo-filled"
-                flat
+                variant="outlined"
                 density="comfortable"
                 hide-details
+                bg-color="white"
               ></v-select>
             </v-col>
           </v-row>
@@ -132,7 +132,7 @@
 
         <!-- Product Grid -->
         <div class="d-flex align-center justify-space-between mb-4">
-          <h2 class="text-h5 font-weight-bold text-grey-darken-3">Catalog Items</h2>
+          <h2 class="text-h5 font-weight-bold text-dark">Catalog Items</h2>
           <span class="text-body-2 text-grey">Showing {{ filteredProducts.length }} items</span>
         </div>
 
@@ -155,7 +155,7 @@
           </v-col>
         </v-row>
 
-        <v-card v-else class="text-center py-12 rounded-lg" variant="outlined" color="grey-lighten-2">
+        <v-card v-else class="text-center py-12 rounded-xl border-card" variant="outlined">
           <v-icon icon="mdi-magnify-remove-outline" size="64" color="grey-darken-1" class="mb-3"></v-icon>
           <h3 class="text-h6 text-grey-darken-2 font-weight-bold mb-1">No Parts Found</h3>
           <p class="text-body-2 text-grey">Try adjusting your search query or selected category filter.</p>
@@ -171,14 +171,14 @@
             </v-col>
             <v-col cols="12" md="6" class="pa-6 d-flex flex-column">
               <div class="d-flex justify-space-between align-center mb-2">
-                <v-chip size="small" color="indigo" variant="tonal">{{ selectedProduct.category }}</v-chip>
+                <v-chip size="small" class="custom-chip" variant="tonal">{{ selectedProduct.category }}</v-chip>
                 <v-btn icon="mdi-close" variant="text" size="small" @click="dialog = false"></v-btn>
               </div>
 
-              <h2 class="text-h6 font-weight-bold mb-2">{{ selectedProduct.name }}</h2>
+              <h2 class="text-h6 font-weight-bold mb-2 text-dark">{{ selectedProduct.name }}</h2>
 
               <div class="d-flex align-center mb-3">
-                <v-rating :model-value="selectedProduct.rating" color="amber-darken-1" density="compact" size="small" half-increments readonly></v-rating>
+                <v-rating :model-value="selectedProduct.rating" color="amber-darken-2" density="compact" size="small" half-increments readonly></v-rating>
                 <span class="text-caption ml-2 text-grey">({{ selectedProduct.rating }})</span>
               </div>
 
@@ -187,11 +187,11 @@
               </p>
 
               <div class="d-flex align-center justify-space-between mb-4">
-                <span class="text-h5 font-weight-black text-indigo-darken-3">${{ selectedProduct.price }}</span>
+                <span class="text-h5 font-weight-black text-dark">${{ selectedProduct.price }}</span>
                 <span class="text-caption text-success font-weight-bold"><v-icon icon="mdi-truck-check-outline" class="mr-1"/> Free Shipping</span>
               </div>
 
-              <v-btn block color="indigo-darken-3" size="large" prepend-icon="mdi-cart-plus" rounded="lg" class="font-weight-bold mb-4" @click="addToCart(selectedProduct)">
+              <v-btn block class="btn-dark-custom size-large mb-4 font-weight-bold" rounded="lg" @click="addToCart(selectedProduct)">
                 Add To Cart
               </v-btn>
             </v-col>
@@ -200,32 +200,32 @@
           <v-divider></v-divider>
 
           <!-- Reviews Section -->
-          <div class="pa-6 bg-grey-lighten-5">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3 d-flex align-center">
+          <div class="pa-6 bg-light-section">
+            <h3 class="text-subtitle-1 font-weight-bold mb-3 d-flex align-center text-dark">
               <v-icon icon="mdi-star-circle-outline" color="amber-darken-2" class="mr-2"/>
               Customer Reviews & Ratings
             </h3>
 
-            <v-card class="pa-3 mb-4 rounded-lg" variant="outlined" color="indigo-lighten-4">
-              <div class="text-caption font-weight-bold mb-1">Leave Your Review:</div>
+            <v-card class="pa-3 mb-4 rounded-xl border-card" variant="outlined" bg-color="white">
+              <div class="text-caption font-weight-bold mb-1 text-dark">Leave Your Review:</div>
               <div class="d-flex align-center mb-2">
-                <v-rating v-model="newReview.rating" color="amber-darken-1" density="compact" size="small"></v-rating>
+                <v-rating v-model="newReview.rating" color="amber-darken-2" density="compact" size="small"></v-rating>
                 <span class="text-caption ml-2 font-weight-bold">{{ newReview.rating }} Stars</span>
               </div>
-              <v-text-field v-model="newReview.name" label="Your Name" density="compact" variant="outlined" class="mb-2" hide-details></v-text-field>
-              <v-textarea v-model="newReview.comment" label="Write feedback..." density="compact" variant="outlined" rows="2" class="mb-2" hide-details></v-textarea>
-              <v-btn color="indigo-darken-3" size="small" rounded class="mt-2 font-weight-bold" @click="submitReview">
+              <v-text-field v-model="newReview.name" label="Your Name" density="compact" variant="outlined" class="mb-2" bg-color="white" hide-details></v-text-field>
+              <v-textarea v-model="newReview.comment" label="Write feedback..." density="compact" variant="outlined" rows="2" class="mb-2" bg-color="white" hide-details></v-textarea>
+              <v-btn class="btn-dark-custom mt-2 font-weight-bold" size="small" rounded @click="submitReview">
                 Submit Review
               </v-btn>
             </v-card>
 
             <div class="reviews-list">
-              <div v-for="(rev, i) in currentReviews" :key="i" class="mb-3 pa-3 bg-white rounded elevation-1">
+              <div v-for="(rev, i) in currentReviews" :key="i" class="mb-3 p-3 bg-white rounded-lg elevation-0 border-card pa-3">
                 <div class="d-flex justify-space-between align-center mb-1">
-                  <span class="font-weight-bold text-body-2">{{ rev.name }}</span>
+                  <span class="font-weight-bold text-body-2 text-dark">{{ rev.name }}</span>
                   <span class="text-caption text-grey">{{ rev.date }}</span>
                 </div>
-                <v-rating :model-value="rev.rating" color="amber-darken-1" density="compact" size="x-small" readonly></v-rating>
+                <v-rating :model-value="rev.rating" color="amber-darken-2" density="compact" size="x-small" readonly></v-rating>
                 <p class="text-caption text-grey-darken-2 mt-1 mb-0">{{ rev.comment }}</p>
               </div>
             </div>
@@ -252,19 +252,19 @@
     </v-main>
 
     <!-- Footer -->
-    <v-footer class="bg-indigo-darken-4 text-white mt-12 py-8">
+    <v-footer class="custom-footer text-white mt-12 py-8">
       <v-container>
         <v-row>
           <v-col cols="12" md="4">
-            <div class="text-h6 font-weight-black mb-2">AUTO<span class="text-amber-accent-3">PARTS</span></div>
-            <p class="text-caption text-grey-lighten-1">Your trusted catalog for quality auto parts and modern car accessories.</p>
+            <div class="text-h6 font-weight-black mb-2 text-dark">AUTO<span class="text-accent">PARTS</span></div>
+            <p class="text-caption text-grey-darken-1">Your trusted catalog for quality auto parts and modern car accessories.</p>
           </v-col>
           <v-col cols="12" md="4" class="text-md-center">
-            <div class="text-subtitle-2 font-weight-bold mb-2">Quick Categories</div>
-            <div class="text-caption text-grey-lighten-1">Car Parts | Car Accessories</div>
+            <div class="text-subtitle-2 font-weight-bold mb-2 text-dark">Quick Categories</div>
+            <div class="text-caption text-grey-darken-1">Car Parts | Car Accessories</div>
           </v-col>
           <v-col cols="12" md="4" class="text-md-right">
-            <div class="text-caption text-grey-lighten-1">&copy; 2026 AutoParts Catalog. All rights reserved.</div>
+            <div class="text-caption text-grey-darken-1">&copy; 2026 AutoParts Catalog. All rights reserved.</div>
           </v-col>
         </v-row>
       </v-container>
@@ -340,9 +340,55 @@ function submitReview() {
 </script>
 
 <style scoped>
-.hero-section {
-  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+
+.app-background {
+  background-color: #f7f5f0 !important;
 }
+
+.custom-navbar {
+  background-color: #f7f5f0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hero-section {
+  background: #111111 !important;
+}
+
+.text-dark {
+  color: #111111 !important;
+}
+
+.text-dark-title {
+  color: #ffffff !important;
+}
+
+.text-accent {
+  color: #c97a7a !important;
+}
+
+.custom-chip {
+  background-color: #df9b9b33 !important;
+  color: #b55d5d !important;
+}
+
+.btn-dark-custom {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.border-card {
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.bg-light-section {
+  background-color: #fcfbfa !important;
+}
+
+.custom-footer {
+  background-color: #111111 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .reviews-list {
   max-height: 220px;
   overflow-y: auto;

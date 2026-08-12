@@ -1,5 +1,5 @@
 <template>
-  <v-card class="product-card h-100 d-flex flex-column rounded-lg overflow-hidden" elevation="2">
+  <v-card class="product-card h-100 d-flex flex-column rounded-xl overflow-hidden border-card" elevation="1">
     <div class="position-relative bg-grey-lighten-2">
       <v-img
         :src="product.image || 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=600&q=80'"
@@ -12,38 +12,36 @@
           </div>
         </template>
       </v-img>
-
-      <!-- زر المفضلة (القلب) -->
+      
       <v-btn
         :icon="isFavorite ? 'mdi-heart' : 'mdi-heart-outline'"
-        :color="isFavorite ? 'red' : 'white'"
         size="small"
         variant="flat"
-        class="position-absolute top-0 right-0 ma-2"
+        class="position-absolute top-0 right-0 ma-2 custom-wishlist-btn"
+        :class="{ 'is-favorited': isFavorite }"
         elevation="2"
         @click="$emit('toggle-wishlist', product)"
       ></v-btn>
 
       <v-chip
         size="x-small"
-        color="indigo-darken-3"
+        class="position-absolute bottom-0 left-0 ma-2 font-weight-bold custom-chip"
         variant="flat"
-        class="position-absolute bottom-0 left-0 ma-2 font-weight-bold"
       >
         {{ product.category }}
       </v-chip>
     </div>
 
-    <v-card-text class="d-flex flex-column flex-grow-1 pa-4">
+    <v-card-text class="d-flex flex-column flex-grow-1 pa-4 bg-white">
       <div class="d-flex align-center justify-space-between mb-2">
         <div class="d-flex align-center">
-          <v-icon icon="mdi-star" color="amber-darken-1" size="small" class="mr-1"></v-icon>
-          <span class="text-caption font-weight-bold">{{ product.rating }}</span>
+          <v-icon icon="mdi-star" color="amber-darken-2" size="small" class="mr-1"></v-icon>
+          <span class="text-caption font-weight-bold text-dark">{{ product.rating }}</span>
         </div>
         <span class="text-caption text-success font-weight-bold">● In Stock</span>
       </div>
 
-      <h3 class="text-subtitle-1 font-weight-bold text-grey-darken-3 mb-2 product-title">
+      <h3 class="text-subtitle-1 font-weight-bold text-dark mb-2 product-title">
         {{ product.name }}
       </h3>
 
@@ -52,21 +50,21 @@
       <div class="d-flex align-center justify-space-between mt-3 pt-3 border-top">
         <div>
           <span class="text-caption text-grey d-block">Price</span>
-          <span class="text-h6 font-weight-black text-indigo-darken-3">${{ product.price }}</span>
+          <span class="text-h6 font-weight-black text-dark">${{ product.price }}</span>
         </div>
 
         <div class="d-flex gap-2">
           <v-btn
             icon="mdi-eye-outline"
             variant="tonal"
-            color="indigo"
+            color="grey-darken-4"
             size="small"
             @click="$emit('open-details', product)"
           ></v-btn>
 
           <v-btn
             icon="mdi-cart-plus"
-            color="amber-accent-4"
+            class="btn-dark-custom"
             size="small"
             elevation="1"
             @click="$emit('add-to-cart', product)"
@@ -95,10 +93,11 @@ defineEmits(['add-to-cart', 'toggle-wishlist', 'open-details'])
 <style scoped>
 .product-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background-color: #ffffff !important;
 }
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
 }
 .product-title {
   display: -webkit-box;
@@ -111,6 +110,30 @@ defineEmits(['add-to-cart', 'toggle-wishlist', 'open-details'])
   gap: 8px;
 }
 .border-top {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #f0f0f0;
+}
+.border-card {
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+.text-dark {
+  color: #111111 !important;
+}
+.custom-chip {
+  background-color: #df9b9b33 !important;
+  color: #b55d5d !important;
+}
+.btn-dark-custom {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.custom-wishlist-btn {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+}
+
+.custom-wishlist-btn.is-favorited {
+  background-color: #ffffff !important;
+  color: #b55d5d !important;
 }
 </style>
