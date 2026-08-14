@@ -14,9 +14,7 @@
         <v-container>
           <v-row align="center">
             <v-col cols="12" md="7">
-              <v-chip class="mb-3 font-weight-bold custom-chip" size="small">
-                PREMIUM AUTO SUPPLIES
-              </v-chip>
+              <v-chip class="mb-3 font-weight-bold custom-chip" size="small">PREMIUM AUTO SUPPLIES</v-chip>
               <h1 class="text-h3 font-weight-black mb-4 text-dark-title">
                 Upgrade Your Ride With OEM & Quality Parts
               </h1>
@@ -135,16 +133,9 @@
         </v-row>
 
         <v-card v-else class="text-center py-12 rounded-xl border-card" variant="outlined">
-          <v-icon
-            icon="mdi-magnify-remove-outline"
-            size="64"
-            color="grey-darken-1"
-            class="mb-3"
-          />
+          <v-icon icon="mdi-magnify-remove-outline" size="64" color="grey-darken-1" class="mb-3" />
           <h3 class="text-h6 text-grey-darken-2 font-weight-bold mb-1">No Parts Found</h3>
-          <p class="text-body-2 text-grey">
-            Try adjusting your search query or selected category filter.
-          </p>
+          <p class="text-body-2 text-grey">Try adjusting your search query or selected category filter.</p>
         </v-card>
       </v-container>
 
@@ -188,9 +179,7 @@
           </v-col>
 
           <v-col cols="12" md="4" class="text-md-right">
-            <div class="text-caption text-grey-darken-1">
-              &copy; 2026 AutoParts Catalog. All rights reserved.
-            </div>
+            <div class="text-caption text-grey-darken-1">&copy; 2026 AutoParts Catalog. All rights reserved.</div>
           </v-col>
         </v-row>
       </v-container>
@@ -249,10 +238,22 @@ function clearFavoritesFromShell(detail) {
   showSnackbar('Wishlist was cleared.', 'info')
 }
 
+function setFavoritesFromShell(detail) {
+  if (!Array.isArray(detail?.productIds)) return
+
+  favoriteProductIds.value = detail.productIds
+}
+
 let stopWishlistItemRemoved
 let stopWishlistCleared
+let stopWishlistState
 
 onMounted(() => {
+  stopWishlistState = listenToShell(
+    'shell:wishlist-state',
+    setFavoritesFromShell
+  )
+
   stopWishlistItemRemoved = listenToShell(
     'shell:wishlist-item-removed',
     removeFavoriteFromShell
@@ -262,11 +263,14 @@ onMounted(() => {
     'shell:wishlist-cleared',
     clearFavoritesFromShell
   )
+
+  emitToShell('catalog:request-wishlist-state')
 })
 
 onBeforeUnmount(() => {
   stopWishlistItemRemoved?.()
   stopWishlistCleared?.()
+  stopWishlistState?.()
 })
 
 function getSharedImageUrl(image) {
@@ -288,10 +292,10 @@ function addToCart(product) {
 }
 
 function toggleWishlist(product) {
-  const alreadyFavorite = favoriteProductIds.value.includes(product.id)
+  const alreadyFavorite = isInWishlist(product.id)
 
   favoriteProductIds.value = alreadyFavorite
-    ? favoriteProductIds.value.filter((id) => id !== product.id)
+    ? favoriteProductIds.value.filter((id) => String(id) !== String(product.id))
     : [...favoriteProductIds.value, product.id]
 
   emitToShell('catalog:toggle-wishlist', {
@@ -311,7 +315,9 @@ function toggleWishlist(product) {
 }
 
 function isInWishlist(productId) {
-  return favoriteProductIds.value.includes(productId)
+  return favoriteProductIds.value.some(
+    (id) => String(id) === String(productId)
+  )
 }
 
 function openDetails(product) {
