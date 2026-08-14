@@ -1,0 +1,43 @@
+.app-background {
+  background-color: #f7f5f0 !important;
+}
+
+.custom-navbar {
+  background-color: #f7f5f0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hero-section {
+  background: #111111 !important;
+}
+
+.text-dark {
+  color: #111111 !important;
+}
+
+.text-dark-title {
+  color: #ffffff !important;
+}
+
+.text-accent {
+  color: #c97a7a !important;
+}
+
+.custom-chip {
+  background-color: #df9b9b33 !important;
+  color: #b55d5d !important;
+}
+
+.btn-dark-custom {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.border-card {
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.custom-footer {
+  background-color: #111111 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}

@@ -8,26 +8,6 @@
           <span class="tracking-wide text-dark">AUTO<span class="text-accent">PARTS</span></span>
         </v-app-bar-title>
 
-        <v-spacer></v-spacer>
-
-        <v-btn icon class="mr-1 text-dark" @click="isOrdersOpen = true">
-          <v-badge color="grey-darken-4" :content="orders.length" text-color="white" v-if="orders.length > 0">
-            <v-icon icon="mdi-history"></v-icon>
-          </v-badge>
-          <v-icon icon="mdi-history" v-else></v-icon>
-        </v-btn>
-
-        <v-btn icon class="mr-1 text-dark" @click="isWishlistOpen = true">
-          <v-badge color="amber-darken-2" :content="wishlistCount" text-color="black">
-            <v-icon icon="mdi-heart-outline"></v-icon>
-          </v-badge>
-        </v-btn>
-
-        <v-btn icon class="btn-dark-custom ml-2" variant="flat" @click="isCartOpen = true">
-          <v-badge color="error" :content="cartCount">
-            <v-icon icon="mdi-cart-outline" color="white"></v-icon>
-          </v-badge>
-        </v-btn>
       </v-container>
     </v-app-bar>
 
@@ -199,46 +179,11 @@
 
           <v-divider></v-divider>
 
-          <!-- Reviews Section -->
-          <div class="pa-6 bg-light-section">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3 d-flex align-center text-dark">
-              <v-icon icon="mdi-star-circle-outline" color="amber-darken-2" class="mr-2"/>
-              Customer Reviews & Ratings
-            </h3>
-
-            <v-card class="pa-3 mb-4 rounded-xl border-card" variant="outlined" bg-color="white">
-              <div class="text-caption font-weight-bold mb-1 text-dark">Leave Your Review:</div>
-              <div class="d-flex align-center mb-2">
-                <v-rating v-model="newReview.rating" color="amber-darken-2" density="compact" size="small"></v-rating>
-                <span class="text-caption ml-2 font-weight-bold">{{ newReview.rating }} Stars</span>
-              </div>
-              <v-text-field v-model="newReview.name" label="Your Name" density="compact" variant="outlined" class="mb-2" bg-color="white" hide-details></v-text-field>
-              <v-textarea v-model="newReview.comment" label="Write feedback..." density="compact" variant="outlined" rows="2" class="mb-2" bg-color="white" hide-details></v-textarea>
-              <v-btn class="btn-dark-custom mt-2 font-weight-bold" size="small" rounded @click="submitReview">
-                Submit Review
-              </v-btn>
-            </v-card>
-
-            <div class="reviews-list">
-              <div v-for="(rev, i) in currentReviews" :key="i" class="mb-3 p-3 bg-white rounded-lg elevation-0 border-card pa-3">
-                <div class="d-flex justify-space-between align-center mb-1">
-                  <span class="font-weight-bold text-body-2 text-dark">{{ rev.name }}</span>
-                  <span class="text-caption text-grey">{{ rev.date }}</span>
-                </div>
-                <v-rating :model-value="rev.rating" color="amber-darken-2" density="compact" size="x-small" readonly></v-rating>
-                <p class="text-caption text-grey-darken-2 mt-1 mb-0">{{ rev.comment }}</p>
-              </div>
-            </div>
-          </div>
+          
         </v-card>
       </v-dialog>
 
-      <!-- Drawers Component -->
-      <ShopDrawers
-        v-model:cart-open="isCartOpen"
-        v-model:wishlist-open="isWishlistOpen"
-        v-model:orders-open="isOrdersOpen"
-      />
+   
 
       <!-- Snackbar -->
       <v-snackbar v-model="snackbar.show" :color="snackbar.color" timeout="2500" location="bottom right" rounded="pill">
@@ -273,32 +218,74 @@
 </template>
 
 <script setup>
+import { useShellEvents } from './composables/useShellEvents'
 import { ref, computed } from 'vue'
 import { products } from './data/products'
 import ProductCard from './components/ProductCard.vue'
-import ShopDrawers from './components/ShopDrawers.vue'
-import { useShop } from './composables/useShop'
+import ProductDetailsDialog from './components/ProductDetailsDialog.vue'
 
-const { addToCart, toggleWishlist, isInWishlist, cartCount, wishlistCount, orders, addReview, getProductReviews, snackbar } = useShop()
 
 const searchQuery = ref('')
 const selectedCategory = ref('All')
 const sortBy = ref('Default')
 const dialog = ref(false)
 const selectedProduct = ref(null)
+const { emitToShell } = useShellEvents()
 
-const isCartOpen = ref(false)
-const isWishlistOpen = ref(false)
-const isOrdersOpen = ref(false)
+const favoriteProductIds = ref([])
+
+const snackbar = ref({
+  show: false,
+  text: '',
+  color: 'success'
+})
+
+function showSnackbar(text, color = 'success') {
+  snackbar.value = { show: true, text, color }
+}
+
+
+function addToCart(product) {
+emitToShell  ('catalog:add-to-cart', {
+    product: {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1
+    }
+  })
+
+  showSnackbar(`${product.name} was sent to the cart.`, 'success')
+}
+
+function toggleWishlist(product) {
+  const alreadyFavorite = favoriteProductIds.value.includes(product.id)
+
+  favoriteProductIds.value = alreadyFavorite
+    ? favoriteProductIds.value.filter((id) => id !== product.id)
+    : [...favoriteProductIds.value, product.id]
+
+  emitToShell('catalog:toggle-wishlist', {
+    product,
+    action: alreadyFavorite ? 'remove' : 'add'
+  })
+
+  showSnackbar(
+    alreadyFavorite
+      ? `${product.name} was removed from wishlist.`
+      : `${product.name} was added to wishlist.`,
+    alreadyFavorite ? 'info' : 'success'
+  )
+}
+
+function isInWishlist(productId) {
+  return favoriteProductIds.value.includes(productId)
+}
 
 const categories = ['All', 'Car Parts', 'Car Accessories']
 const sortOptions = ['Default', 'Price: Low to High', 'Price: High to Low', 'Rating: High to Low']
 
-const newReview = ref({
-  name: '',
-  rating: 5,
-  comment: ''
-})
 
 const filteredProducts = computed(() => {
   let result = products.filter((p) => {
@@ -318,79 +305,11 @@ const filteredProducts = computed(() => {
   return result
 })
 
-const currentReviews = computed(() => {
-  if (!selectedProduct.value) return []
-  return getProductReviews(selectedProduct.value.id)
-})
+
 
 function openDetails(product) {
   selectedProduct.value = product
-  newReview.value = { name: '', rating: 5, comment: '' }
-  dialog.value = true
+    dialog.value = true
 }
 
-function submitReview() {
-  if (!newReview.value.name || !newReview.value.comment) {
-    alert('Please fill in both name and comment.')
-    return
-  }
-  addReview(selectedProduct.value.id, { ...newReview.value })
-  newReview.value = { name: '', rating: 5, comment: '' }
-}
 </script>
-
-<style scoped>
-
-.app-background {
-  background-color: #f7f5f0 !important;
-}
-
-.custom-navbar {
-  background-color: #f7f5f0 !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.hero-section {
-  background: #111111 !important;
-}
-
-.text-dark {
-  color: #111111 !important;
-}
-
-.text-dark-title {
-  color: #ffffff !important;
-}
-
-.text-accent {
-  color: #c97a7a !important;
-}
-
-.custom-chip {
-  background-color: #df9b9b33 !important;
-  color: #b55d5d !important;
-}
-
-.btn-dark-custom {
-  background-color: #111111 !important;
-  color: #ffffff !important;
-}
-
-.border-card {
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
-}
-
-.bg-light-section {
-  background-color: #fcfbfa !important;
-}
-
-.custom-footer {
-  background-color: #111111 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.reviews-list {
-  max-height: 220px;
-  overflow-y: auto;
-}
-</style>
