@@ -199,7 +199,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useShellEvents } from './composables/useShellEvents'
 import { products } from './data/products'
 import ProductCard from './components/ProductCard.vue'
@@ -212,7 +212,7 @@ const dialog = ref(false)
 const selectedProduct = ref(null)
 const favoriteProductIds = ref([])
 
-const { emitToShell } = useShellEvents()
+const { emitToShell, listenToShell } = useShellEvents()
 
 const snackbar = ref({
   show: false,
@@ -226,6 +226,48 @@ const sortOptions = ['Default', 'Price: Low to High', 'Price: High to Low', 'Rat
 function showSnackbar(text, color = 'success') {
   snackbar.value = { show: true, text, color }
 }
+
+function removeFavoriteFromShell(detail) {
+  if (detail?.productId === undefined) return
+
+  favoriteProductIds.value = favoriteProductIds.value.filter(
+    (id) => String(id) !== String(detail.productId)
+  )
+
+  showSnackbar('Product was removed from wishlist.', 'info')
+}
+
+function clearFavoritesFromShell(detail) {
+  if (!Array.isArray(detail?.productIds)) return
+
+  const removedIds = new Set(detail.productIds.map((id) => String(id)))
+
+  favoriteProductIds.value = favoriteProductIds.value.filter(
+    (id) => !removedIds.has(String(id))
+  )
+
+  showSnackbar('Wishlist was cleared.', 'info')
+}
+
+let stopWishlistItemRemoved
+let stopWishlistCleared
+
+onMounted(() => {
+  stopWishlistItemRemoved = listenToShell(
+    'shell:wishlist-item-removed',
+    removeFavoriteFromShell
+  )
+
+  stopWishlistCleared = listenToShell(
+    'shell:wishlist-cleared',
+    clearFavoritesFromShell
+  )
+})
+
+onBeforeUnmount(() => {
+  stopWishlistItemRemoved?.()
+  stopWishlistCleared?.()
+})
 
 function getSharedImageUrl(image) {
   return new URL(image, window.location.origin).href

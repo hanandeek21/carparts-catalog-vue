@@ -14,5 +14,24 @@ export function useShellEvents() {
     )
   }
 
-  return { emitToShell }
+  function listenToShell(type, callback) {
+    function handleMessage(event) {
+      const message = event.data
+
+      if (
+        message?.source === 'shell' &&
+        message.type === type
+      ) {
+        callback(message.detail)
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+
+    return () => {
+      window.removeEventListener('message', handleMessage)
+    }
+  }
+
+  return { emitToShell, listenToShell }
 }
